@@ -1,0 +1,126 @@
+<!doctype html>
+
+<html>
+  <head>
+    <title>Dehumanization</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../index.css">
+    <link rel="stylesheet" href="index.css">
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+  </head>
+
+  <body>
+    <div id="sidenav" class="sidenav">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+      <div class="sidenav-links">
+        <a href="../home.html">Home</a>
+        <br>
+        <a href="../about/about.html">About</a>
+      </div>
+    </div>
+
+    <div id="main">
+      <div class="page-upper">
+        <nav class="navbar navbar-expand-md navbar-light">
+          <a class="navbar-brand" href="../home.html">
+            <img src="../Logo.svg">
+          </a>
+          <button class="navbar-toggler ml-auto" type="button" aria-expanded="false" aria-label="Toggle navigation">
+            <span style="font-size:5vw;color:#201F1B;cursor:pointer" onclick="openNav()">&#9776;</span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav ml-auto">
+              <a class="nav-item nav-link" href="../home.html">Home <span class="sr-only">(current)</span></a>
+              <a class="nav-item nav-link" href="../about/about.html">About</a>
+            </div>
+          </div>
+        </nav>
+        <div class="page-title-container">
+          <div class="page-heading-container">
+            <h1>Dehumanization in Language</h1>
+            <p>Exploring vector representations of LGBTQ and religious terms</p>
+          </div>
+          <img src="Dehumanization.png" alt="Graph of how similar LGBT terms are to those of vermin"/>
+        </div>
+      </div>
+
+      <hr>
+      <br>
+      <div class="page-lower">
+        <p> Context:  Deep Learning Group Assignment </p>
+        <p> Task:  Reimplement and expand Mendelsohn et al's "A Framework for the Computational Linguistic Analysis of Dehumanization". </p>
+        <p> Skills practiced:  NLP, regex, data visualization </p>
+        <div class="part">
+          <h3>Part 1: A Word to the Wise</h3>
+          For the final project of Deep Learning, my group decided to reimplement <a href="https://www.frontiersin.org/articles/10.3389/frai.2020.00055/full">this 2018 paper</a> by Mendelsohn et al.
+          <br>
+          <br>
+          In short, this paper uses a word2vec model to measure dehumanizing attitudes in LGBTQ terms like <em>homosexual</em> and <em>gay</em>.
+          This dehumanization was quantified along four axes: negative evaluation, denial of agency, moral disgust, and vermin as
+          a metaphor. By drawing on a large <em>New York Times</em> corpus from 1986 to 2016, Mendelsohn et al. was able to track how the usage
+          of these terms has changed over time. For example, while LGBTQ terms have become more humanizing in this timeframe,
+          <em>homosexual</em> has emerged as more dehumanizing than <em>gay</em> or LGBTQ terms at large.
+        </div>
+
+        <br>
+
+        <div class="part">
+          <h3>Part 2: Mincing Words</h3>
+          After reaching out to the authors of the paper, they graciously sent us the raw data for their analysis. Thus,
+          the reimplementation process consisted of two main steps: preprocessing and model training.
+          <br>
+          <br>
+          My partner and I worked on preprocessing. Since the raw data was given in paragraphs, we used NLTK to split the
+          paragraphs into sentences. Then, we split the sentences into words, decapitalized them, and used regex to 
+          remove numbers and punctuation. This preprocessing allowed us to use Gensim to train the word2vec model.
+
+          <figure class="row justify-content-center">
+            <img src="word2vec2.png" alt="2D representation of word2vec vector space" class="mt-3 mb-3">
+            <figcaption>A simplified representation of how word2vec captures semantic relationships</figcaption>
+          </figure>
+
+          We mimicked the methodology in the original paper to operationalize dehumanization. For negative evaluation
+          and denial of agency, we used external lexicons to average the valence and dominance scores of the relevant
+          terms' 500 nearest neighbors. For moral disgust and vermin as a metaphor, we calculated the cosine distance
+          between the relevant terms and averaged concept vectors based on sets of words relating to the two properties.
+        </div>
+
+        <br>
+        <div class="part">
+          <h3>Part 3: A Picture Is Worth a Thousand Words</h3>
+          I also worked on the data visualizations for our project. Here is an example plot showing the valence of 
+          <em>homosexual</em>, <em>gay</em>, all LGBTQ terms, and <em>American</em> (as a non-neutral control variable).
+          <figure class="row justify-content-center">
+            <img src="lgbt_valence.png" alt="Plot of the valence scores for homosexual, gay, all LGBTQ terms, and American" id="plot" class="mt-3 mb-3">
+            <figcaption>While <em>gay</em> and LGBTQ terms on average have become more positive, <em>homosexual</em> has not.</figcaption>
+          </figure>
+          
+          To expand upon the paper, we also used the same methodology to measure the dehumanizing attitudes of religious
+          terms, namely <em>Muslim</em> and <em>Christian</em>. We expected to find <em>Muslim</em> to be less
+          humanizing than <em>Christian</em>, which was confirmed by our results.
+
+          <figure class="row justify-content-center">
+            <img src="religion_valence.png" alt="Plot of the valence scores for muslim, christian, and American" id="plot" class="mt-3 mb-3">
+            <figcaption><em>Muslim</em> is more negative than <em>Christian</em> or <em>American</em> across the entire timeframe.</figcaption>
+          </figure>
+        </div>
+        <div class="part">
+          <h3>Major Takeaways</h3>
+          <b>Words are powerful in ways we don't often comprehend.</b>
+          <ul>
+            <li>This project shows how words can operate in nefarious ways, even in "neutral" sources like the <em>New York Times</em>. We must be incredibly mindful of how we use our language.</li>
+          </ul>
+          <b>Deep learning and similar research paradigms can be used for social good.</b>
+          <ul>
+            <li>This project not only quantifies the work of social psychology on dehumaniziation, but also substantiates the lived experiences of marginalized social groups.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <br>
+    <script src="../scripts.js"></script>
+  </body>
+</html>
